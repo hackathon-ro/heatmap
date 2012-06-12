@@ -1,24 +1,31 @@
 
 
 require(["jquery"], function($) {
-    //the jquery.alpha.js and jquery.beta.js plugins have been loaded.
 
-    function HeatMap() {
+    $(function() {
 
-      var privateVar;
+      function HeatMap() {
+        this.url = "localhost/cgi-bin/
+        this.tellServer = function(x,y) {
 
-      var privateMethod = function() {
+        };
+
+        this.clickCallback = function(ev) {
+            var x = ev.pageX;
+            var y = ev.pageY;
+            console.log(x+" "+y);
+        };
+
+
+        $(document).on("click",this.clickCallback);
       };
 
-      return {
-        clickCallback: function(ev) {
-        }
-      };
-    };
 
-
-
-    window.heatmap = new HeatMap();
+      $(document).ready(function() {
+        window.heatmap = new HeatMap();
+        console.log("doc ready");
+      });
+    });
 });
 
 

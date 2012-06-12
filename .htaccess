@@ -1,2 +1,3 @@
 AddHandler cgi-script .pl .cgi
+SetEnv PERL5LIB /home/spetrea/perl5/lib/perl5
 Options +ExecCGI

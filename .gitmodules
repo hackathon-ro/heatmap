@@ -3,4 +3,10 @@
 	url = git://github.com/nmrugg/LZMA-JS
 [submodule "md5-js"]
 	path = js/md5-js
-	url = https://github.com/wbond/md5-js.git
+        url = https://github.com/wbond/md5-js.git
+[submodule "heatmap-js"]
+	path = js/md5-js
+        url = https://raw.github.com/pa7/heatmap.js.git
+
+
+  

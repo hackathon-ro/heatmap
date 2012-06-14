@@ -50,5 +50,5 @@ for(my $y=0;$y<=$h/$bucket_size;$y++) {
 };
 
 
-print Dumper $result;
+
 

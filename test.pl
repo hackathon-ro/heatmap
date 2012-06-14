@@ -20,6 +20,7 @@ my $button = $cgi->param("button" );
 sub error {
   my ($msg) = @_;
   print "{ error: \"$msg\" }";
+  exit(-1);
 };
 
 error("coordinates not integers") unless ($x =~ /^\d+$/ && $y =~ /^\d+$/ );

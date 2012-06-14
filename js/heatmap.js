@@ -10,10 +10,11 @@ require(["jquery"], function($) {
         this.tellServer = function(x,y,but) {
           var urlLocation = window.document.location.href;
           var clickData = {
-            url: urlLocation,
-            x  : x,
-            y  : y,
-            button: but
+            type   : "click",
+            url    : urlLocation,
+            x      : x,
+            y      : y,
+            button : but
           };
           $.ajax({
             type    : 'POST',

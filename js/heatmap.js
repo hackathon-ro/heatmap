@@ -7,18 +7,19 @@ require(["jquery"], function($) {
       function HeatMap() {
         var that = this;
         this.backendUrl = "http://localhost/rac-heatmap/test.pl";
-        this.tellServer = function(x,y) {
+        this.tellServer = function(x,y,but) {
+          var urlLocation = window.document.location.href;
           var clickData = {
-            url: window.location.toString(),
+            url: urlLocation,
             x  : x,
             y  : y,
+            button: but
           };
           $.ajax({
             type    : 'POST',
             url     : that.backendUrl,
             data    : clickData,
             success : function(e) {
-              console.log(e);
             },
           });
         };
@@ -26,8 +27,8 @@ require(["jquery"], function($) {
         this.clickCallback = function(ev) {
             var x = ev.pageX;
             var y = ev.pageY;
-            console.log(x+" "+y);
-            that.tellServer(x,y);
+            var button = ev.button;
+            that.tellServer(x,y,button);
         };
 
 
@@ -41,24 +42,6 @@ require(["jquery"], function($) {
       });
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -6,7 +6,7 @@ require(["jquery"], function($) {
 
       function HeatMap() {
         var that = this;
-        this.backendUrl = "http://localhost/rac-heatmap/test.pl";
+        this.backendUrl = "http://localhost/rac-heatmap/receive.pl";
         this.tellServer = function(x,y,but) {
           var urlLocation = window.document.location.href;
           var clickData = {

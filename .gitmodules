@@ -1,3 +1,6 @@
 [submodule "LZMA-JS"]
-	path = LZMA-JS
+	path = js/LZMA-JS
 	url = git://github.com/nmrugg/LZMA-JS
+[submodule "md5-js"]
+	path = js/md5-js
+	url = https://github.com/wbond/md5-js.git

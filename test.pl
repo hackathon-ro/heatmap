@@ -44,6 +44,7 @@ if(       $type eq "click") {
   my $dbh = DBI->connect($dsn,$db->{username},$db->{password});
   my $time = DateTime->now->ymd;
   $dbh->do("INSERT INTO heatmap(id,url,time,x,y,button) VALUES(DEFAULT,\"$url\",\"$time\",$x,$y,$button);");
+
 } elsif ( $type eq "move") {
 
 } else {

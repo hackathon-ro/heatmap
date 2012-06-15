@@ -1,12 +1,14 @@
 
 
-require(["jquery"], function($) {
+require(["jquery","heatmap"], function($) {
 
     $(function() {
 
       function HeatMap() {
         var that = this;
-        this.backendUrl = "http://localhost/rac-heatmap/receive.pl";
+        this.recordUrl = "http://localhost/rac-heatmap/receive.pl";
+        this.generateUrl = "http://localhost/rac-heatmap/generate.pl";
+        this.heatmapInstance = null;
         this.tellServer = function(x,y,but) {
           var urlLocation = window.document.location.href;
           var clickData = {
@@ -18,7 +20,7 @@ require(["jquery"], function($) {
           };
           $.ajax({
             type    : 'POST',
-            url     : that.backendUrl,
+            url     : that.recordUrl,
             data    : clickData,
             success : function(e) {
             },
@@ -30,6 +32,31 @@ require(["jquery"], function($) {
             var y = ev.pageY;
             var button = ev.button;
             that.tellServer(x,y,button);
+        };
+
+        this.genOverlay = function() {
+          var width                = document.body.clientWidth;
+          var height               = document.body.clientHeight;
+          var overlayElement = document.createElement("div");
+          overlayElement.style.cssText = "position:absolute;left:0;top:28px;width:"+width+"px;height:"+height+"px;z-index:999999999;";
+          document.body.appendChild(overlayElement);
+
+          this.heatmapInstance = h337.create({
+            width   : width,
+            height  : height,
+            element : overlayElement,
+            visible : true
+          });
+          var genUrl = that.generateUrl+"?url="+window.document.location.href;
+          $.ajax({
+            type    : 'GET',
+            url     : genUrl,
+            success : function(e) {
+              debugger;
+              console.log(e);
+            },
+          });
+          //this.heatmapInstance.store.setDataSet(data)
         };
 
 

@@ -10,6 +10,9 @@ use DBI;
 use Data::Validate::URI qw(is_uri);
 use Image::Heatmap;
 
+my $cgi = CGI->new;
+print "Content-type: application/json\n\n";
+
 my $db = {
   name     => "heatmap",
   machine  => "127.0.0.1",
@@ -20,7 +23,7 @@ my $db = {
 
 my $dsn = sprintf("dbi:mysql:%s:%s:%s",$db->{name},$db->{machine},$db->{port});
 my $dbh = DBI->connect($dsn,$db->{username},$db->{password});
-my $sth     = $dbh->prepare('select y,x  from heatmap;');
+my $sth = $dbh->prepare('select y,x  from heatmap;');
 
 my $bucket_size = 300;
 my @buckets;
@@ -49,6 +52,4 @@ for(my $y=0;$y<=$h/$bucket_size;$y++) {
   };
 };
 
-
-
-
+print encode_json($result);

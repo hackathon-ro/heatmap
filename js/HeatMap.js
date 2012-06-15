@@ -34,11 +34,11 @@ require(["jquery","heatmap"], function($) {
             that.tellServer(x,y,button);
         };
 
-        this.genOverlay = function(type) {
+        this.genOverlay = function(type,opts) {
           var width                = document.body.clientWidth;
-          var height               = document.body.clientHeight;
+          var height               = document.body.clientHeight + document.body.scrollHeight;
           var overlayElement = document.createElement("div");
-          overlayElement.style.cssText = "position:absolute;left:0;top:28px;width:"+width+"px;height:"+height+"px;z-index:999999999;";
+          overlayElement.style.cssText = "position:absolute;left:0;top:0px;width:"+width+"px;height:"+height+"px;z-index:999999999;";
           document.body.appendChild(overlayElement);
 
           this.heatmapInstance = h337.create({
@@ -49,16 +49,31 @@ require(["jquery","heatmap"], function($) {
           });
           var genUrl = that.generateUrl
                         +"?url="+window.document.location.href 
-                        +"&type="+type
-                        +"&bucket_size=100";
-          $.ajax({
-            type    : 'GET',
-            url     : genUrl,
-            success : function(data) {
-              //debugger;
-              that.heatmapInstance.store.setDataSet(data);
-            },
-          });
+                        +"&type="+type;
+                        
+          if(type == "bucket") {
+            genUrl += "&bucket_size="+opts.bucketSize;
+            $.ajax({
+              type    : 'GET',
+              url     : genUrl,
+              success : function(raw) {
+                for(var i=0;i<raw.data.length;i++){
+                  raw.data[i].x *= opts.bucketSize;
+                  raw.data[i].y *= opts.bucketSize;
+                };
+                that.heatmapInstance.store.setDataSet(raw);
+              },
+            });
+          } else {
+            $.ajax({
+              type    : 'GET',
+              url     : genUrl,
+              success : function(data) {
+                //debugger;
+                that.heatmapInstance.store.setDataSet(data);
+              },
+            });
+          };
           //this.heatmapInstance.store.setDataSet(data)
         };
 

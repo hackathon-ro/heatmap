@@ -13,7 +13,7 @@
     </div>
     <script>
       document.getElementById("generate-bucket").onclick = function() {
-        window.heatmap.genOverlay("bucket");
+        window.heatmap.genOverlay("bucket",{bucketSize: 50});
       };
       document.getElementById("generate-detailed").onclick = function() {
         window.heatmap.genOverlay("detailed");

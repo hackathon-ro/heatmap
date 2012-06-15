@@ -40,7 +40,7 @@ my $sth = $dbh->prepare("select y,x  from heatmap where url=?;");
 
 $sth->execute($url);
 my $raw_data = $sth->fetchall_arrayref;
-my $max = -2;
+my $max = 0;
 my $result = {
   data => [],
   max  => 0,
@@ -55,12 +55,13 @@ if(      $type eq 'bucket') {
   # generate data
   for(my $y=0;$y<=$h/$bucket_size;$y++) {
     for(my $x=0;$x<=$w/$bucket_size;$x++) {
-
-      $max = $max < $buckets[$y][$x] ? $buckets[$y][$x] : $max;
-      push @{$result->{data}},{
-        count => $buckets[$y][$x] || 0,
-        x => $x,
-        y => $y,
+      if($buckets[$y][$x]) {
+        $max = $max < $buckets[$y][$x] ? $buckets[$y][$x] : $max;
+        push @{$result->{data}},{
+          count => $buckets[$y][$x],
+          x => $x,
+          y => $y,
+        };
       };
     };
   };
@@ -72,11 +73,13 @@ if(      $type eq 'bucket') {
 
   for(my $y=0;$y<=$h;$y++) {
     for(my $x=0;$x<=$w;$x++) {
-      $max = $max < $buckets[$y][$x] ? $buckets[$y][$x] : $max;
-      push @{$result->{data}},{
-        count => $buckets[$y][$x] || 0,
-        x => $x,
-        y => $y,
+      if($buckets[$y][$x]) {
+        $max = $max < $buckets[$y][$x] ? $buckets[$y][$x] : $max;
+        push @{$result->{data}},{
+          count => $buckets[$y][$x],
+          x => $x,
+          y => $y,
+        };
       };
     };
   };

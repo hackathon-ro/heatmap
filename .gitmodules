@@ -5,8 +5,8 @@
 	path = js/md5-js
         url = https://github.com/wbond/md5-js.git
 [submodule "heatmap-js"]
-	path = js/md5-js
+	path = js/heatmap-js
         url = https://raw.github.com/pa7/heatmap.js.git
-
-
-  
+[submodule "jszip"]
+	path = js/jszip
+        url = https://github.com/Stuk/jszip.git

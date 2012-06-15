@@ -7,10 +7,16 @@
 
   <body>
     <h1>Heatmap demo</h1>
-    <input id="generate" type="submit" value="generate overlay" />
+    <div>
+      <input id="generate-bucket"   type="submit" value="generate overlay(bucket)"   /> <br/>
+      <input id="generate-detailed" type="submit" value="generate overlay(detailed)" />
+    </div>
     <script>
-      document.getElementById("generate").onclick = function() {
-        window.heatmap.genOverlay();
+      document.getElementById("generate-bucket").onclick = function() {
+        window.heatmap.genOverlay("bucket");
+      };
+      document.getElementById("generate-detailed").onclick = function() {
+        window.heatmap.genOverlay("detailed");
       };
     </script>
   </body>

@@ -34,7 +34,7 @@ require(["jquery","heatmap"], function($) {
             that.tellServer(x,y,button);
         };
 
-        this.genOverlay = function() {
+        this.genOverlay = function(type) {
           var width                = document.body.clientWidth;
           var height               = document.body.clientHeight;
           var overlayElement = document.createElement("div");
@@ -47,13 +47,16 @@ require(["jquery","heatmap"], function($) {
             element : overlayElement,
             visible : true
           });
-          var genUrl = that.generateUrl+"?url="+window.document.location.href;
+          var genUrl = that.generateUrl
+                        +"?url="+window.document.location.href 
+                        +"&type="+type
+                        +"&bucket_size=100";
           $.ajax({
             type    : 'GET',
             url     : genUrl,
-            success : function(e) {
-              debugger;
-              console.log(e);
+            success : function(data) {
+              //debugger;
+              that.heatmapInstance.store.setDataSet(data);
             },
           });
           //this.heatmapInstance.store.setDataSet(data)

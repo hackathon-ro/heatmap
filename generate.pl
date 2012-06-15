@@ -20,36 +20,70 @@ my $db = {
   username => "root",
   password => "smeker",
 };
+sub error {
+  my ($msg) = @_;
+  print "{ error: \"$msg\" }";
+  exit(-1);
+};
+
+my $url  = $cgi->param("url"    );
+my $type = $cgi->param("type"    );
+
+error("unexpected type") unless $type =~ /^(bucket|detailed)$/;
+error("url invalid")     unless is_uri($url);
+
 
 my $dsn = sprintf("dbi:mysql:%s:%s:%s",$db->{name},$db->{machine},$db->{port});
 my $dbh = DBI->connect($dsn,$db->{username},$db->{password});
 my $sth = $dbh->prepare('select y,x  from heatmap;');
 
-my $bucket_size = 300;
-my @buckets;
-
 my ($w,$h) = (1280,1024);
 
 $sth->execute();
 my $raw_data = $sth->fetchall_arrayref;
-
-$buckets[$_->[0]/$bucket_size][$_->[1]/$bucket_size]++ for @$raw_data;
-
-
-
+my $max = -2;
 my $result = {
-  bucket_size => $bucket_size,
   data => [],
+  max  => 0,
 };
-# generate data
-for(my $y=0;$y<=$h/$bucket_size;$y++) {
-  for(my $x=0;$x<=$w/$bucket_size;$x++) {
-    push @{$result->{data}},{
-      count => $buckets[$y][$x] || 0,
-      x => $x,
-      y => $y,
+my @buckets;
+  
+if(      $type eq 'bucket') {
+  my $bucket_size = $cgi->param("bucket_size" ) || 80;
+  $result->{bucket_size} = $bucket_size;
+  $buckets[$_->[0]/$bucket_size][$_->[1]/$bucket_size]++ for @$raw_data;
+
+  # generate data
+  for(my $y=0;$y<=$h/$bucket_size;$y++) {
+    for(my $x=0;$x<=$w/$bucket_size;$x++) {
+
+      $max = $max < $buckets[$y][$x] ? $buckets[$y][$x] : $max;
+      push @{$result->{data}},{
+        count => $buckets[$y][$x] || 0,
+        x => $x,
+        y => $y,
+      };
     };
   };
+
+  $result->{max} = $max;
+
+} elsif ($type eq 'detailed') {
+  $buckets[$_->[0]][$_->[1]]++ for @$raw_data;
+
+  for(my $y=0;$y<=$h;$y++) {
+    for(my $x=0;$x<=$w;$x++) {
+      $max = $max < $buckets[$y][$x] ? $buckets[$y][$x] : $max;
+      push @{$result->{data}},{
+        count => $buckets[$y][$x] || 0,
+        x => $x,
+        y => $y,
+      };
+    };
+  };
+
+  $result->{max} = $max;
+} else {
 };
 
 print encode_json($result);

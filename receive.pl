@@ -11,11 +11,12 @@ use Data::Validate::URI qw(is_uri);
 my $cgi = CGI->new;
 print "Content-type: text/html\n\n";
 
-my $type   = $cgi->param("type"   );
-my $x      = $cgi->param("x"      );
-my $y      = $cgi->param("y"      );
-my $url    = $cgi->param("url"    );
-my $button = $cgi->param("button" );
+my $type     = $cgi->param("type"   );
+my $x        = $cgi->param("x"      );
+my $y        = $cgi->param("y"      );
+my $url      = $cgi->param("url"    );
+my $button   = $cgi->param("button" );
+my $referrer = $cgi->param("referrer" );
 
 sub error {
   my ($msg) = @_;
@@ -43,7 +44,7 @@ if(       $type eq "click") {
   my $dsn = sprintf("dbi:mysql:%s:%s:%s",$db->{name},$db->{machine},$db->{port});
   my $dbh = DBI->connect($dsn,$db->{username},$db->{password});
   my $time = DateTime->now->ymd;
-  $dbh->do("INSERT INTO heatmap(id,url,time,x,y,button) VALUES(DEFAULT,\"$url\",\"$time\",$x,$y,$button);");
+  $dbh->do("INSERT INTO heatmap(id,url,time,x,y,button,referrer) VALUES(DEFAULT,\"$url\",\"$time\",$x,$y,$button,\"$referrer\");");
 
 } elsif ( $type eq "move") {
 

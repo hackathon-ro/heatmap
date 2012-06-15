@@ -9,14 +9,22 @@ require(["jquery","heatmap"], function($) {
         this.recordUrl = "http://localhost/rac-heatmap/receive.pl";
         this.generateUrl = "http://localhost/rac-heatmap/generate.pl";
         this.heatmapInstance = null;
+
+        /*
+        *
+        * Tell server about a click, so the server can record them in a DB for later
+        * use(to generate a heatmap)
+        *
+        */
         this.tellServer = function(x,y,but) {
           var urlLocation = window.document.location.href;
           var clickData = {
-            type   : "click",
-            url    : urlLocation,
-            x      : x,
-            y      : y,
-            button : but
+            type     : "click",
+            url      : urlLocation,
+            referrer : document.referrer,
+            x        : x,
+            y        : y,
+            button   : but
           };
           $.ajax({
             type    : 'POST',
@@ -33,6 +41,14 @@ require(["jquery","heatmap"], function($) {
             var button = ev.button;
             that.tellServer(x,y,button);
         };
+
+        /*
+        *
+        * Generates heatmap using heatmap.js
+        * It actually just makes a div and feeds it the data it needs(taken from server-side)
+        * and then heatmap.js takes care of the rest
+        *
+        */
 
         this.genOverlay = function(type,opts) {
           var width                = document.body.clientWidth;
@@ -78,6 +94,7 @@ require(["jquery","heatmap"], function($) {
         };
 
 
+        // installs the click callback
         $(document).on("click",this.clickCallback);
       };
 

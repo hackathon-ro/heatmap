@@ -33,13 +33,12 @@ error("unexpected type") unless $type =~ /^(bucket|detailed)$/;
 error("url invalid")     unless is_uri($url);
 
 
+my ($w,$h) = (1280,1024);
 my $dsn = sprintf("dbi:mysql:%s:%s:%s",$db->{name},$db->{machine},$db->{port});
 my $dbh = DBI->connect($dsn,$db->{username},$db->{password});
-my $sth = $dbh->prepare('select y,x  from heatmap;');
+my $sth = $dbh->prepare("select y,x  from heatmap where url=?;");
 
-my ($w,$h) = (1280,1024);
-
-$sth->execute();
+$sth->execute($url);
 my $raw_data = $sth->fetchall_arrayref;
 my $max = -2;
 my $result = {

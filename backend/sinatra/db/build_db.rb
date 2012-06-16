@@ -1,12 +1,13 @@
 #!/usr/bin/ruby
 
+require "rubygems"
 require "active_record"
 require "sqlite3"
 require "../models/heatmap"
 
 
-ActiveRecord::Base.logger = Logger.new(STDERR)
-ActiveRecord::Base.colorize_logging = false
+#ActiveRecord::Base.logger = Logger.new(STDERR)
+#ActiveRecord::Base.colorize_logging = false
 
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",

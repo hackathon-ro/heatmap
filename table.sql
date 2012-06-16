@@ -7,6 +7,13 @@
 -- Server version: 5.1.54
 -- PHP Version: 5.3.5-1ubuntu7.8
 
+
+-- CREATE DATABASE heatmap;
+
+-- TODO: code to create user, database, add rights, and change in app code username used
+
+USE heatmap;
+
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 

@@ -64,7 +64,7 @@ class HeatMapWS < Sinatra::Base
     
 		result = {
 			:data => data,
-			:max => 2
+			:max => buckets.values.max
 		}
 		return result.to_json
 	end

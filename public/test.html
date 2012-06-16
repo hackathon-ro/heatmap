@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Heatmap demo</title>
+    <script data-main="js/HeatMap.js" src="js/require.js"></script>
+  </head>
+
+  <body>
+    <h1>Heatmap demo</h1>
+    <div>
+      <input id="generate-bucket"   type="submit" value="generate overlay(bucket)"   /> <br/>
+      <input id="generate-detailed" type="submit" value="generate overlay(detailed)" />
+    </div>
+    <script>
+      document.getElementById("generate-bucket").onclick = function() {
+        window.heatmap.genOverlay("bucket",{bucketSize: 5});
+      };
+      document.getElementById("generate-detailed").onclick = function() {
+        window.heatmap.genOverlay("detailed");
+      };
+    </script>
+  </body>
+</html>

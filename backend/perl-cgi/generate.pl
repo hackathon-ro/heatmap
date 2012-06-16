@@ -8,7 +8,6 @@ use Storable;
 use DateTime;
 use DBI;
 use Data::Validate::URI qw(is_uri);
-use Image::Heatmap;
 
 my $cgi = CGI->new;
 print "Content-type: application/json\n\n";

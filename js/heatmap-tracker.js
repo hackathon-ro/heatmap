@@ -6,8 +6,8 @@ require(["jquery","heatmap"], function($) {
 
       function HeatMap() {
         var that = this;
-        this.recordUrl = "http://localhost/rac-heatmap/receive.pl";
-        this.generateUrl = "http://localhost/rac-heatmap/generate.pl";
+        this.recordUrl = "http://localhost/rac-heatmap/backend/perl-cgi/receive.pl";
+        this.generateUrl = "http://localhost/rac-heatmap/backend/perl-cgi/generate.pl";
         this.heatmapInstance = null;
 
         /*
@@ -46,7 +46,7 @@ require(["jquery","heatmap"], function($) {
         *
         * Generates heatmap using heatmap.js
         * It actually just makes a div and feeds it the data it needs(taken from server-side)
-        * and then heatmap.js takes care of the rest
+        * and then heatmap.js takes care of rendering that data
         *
         */
 
